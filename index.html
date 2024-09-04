@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barra de Carga XD</title>
+    <title>magomeme</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,6 +39,13 @@
             font-weight: bold;
             color: #333;
         }
+        #calculando {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            display: none; /* Oculto por defecto */
+        }
     </style>
 </head>
 <body>
@@ -46,6 +53,8 @@
         <h1>Piensa en un número</h1>
         <input type="number" id="inputNumber" placeholder="Número" />
         <button onclick="startLoading()">Cargar</button>
+
+        <div id="calculando">Calculando...</div> <!-- Texto de "Calculando..." -->
 
         <div id="progressBar">
             <div id="progress"></div>
@@ -55,8 +64,7 @@
 
     <!-- Etiqueta de audio -->
     <audio id="loadingMusic">
-        <source src="musica/magomeme.mp3" type="audio/mpeg">
-        Tu navegador no soporta la reproducción de audio.
+        <source src ="musica/magomeme.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -68,8 +76,10 @@
             }
 
             var progressBar = document.getElementById('progress');
+            var calculandoText = document.getElementById('calculando');
             progressBar.style.width = '0%';
             progressBar.innerText = '0%';
+            calculandoText.style.display = 'block'; // Muestra el texto "Calculando..."
 
             var width = 0;
             var duration = 5000; // Duración de 5 segundos
@@ -77,7 +87,7 @@
             var step = (intervalTime / duration) * 100;
 
             var audio = document.getElementById('loadingMusic');
-            audio.currentTime = 2;
+            audio.currentTime = 2; // Empieza a reproducir desde el segundo 2
             audio.play(); // Inicia la música
 
             var interval = setInterval(function() {
@@ -85,7 +95,7 @@
                     clearInterval(interval);
                     document.getElementById('result').innerText = "El número que pensaste es: " + number;
                     audio.pause(); // Detiene la música
-                    audio.currentTime = 0; // Reinicia la música
+                    calculandoText.style.display = 'none'; // Oculta el texto "Calculando..." cuando termina la carga
                 } else {
                     width += step;
                     progressBar.style.width = width + '%';
@@ -93,10 +103,10 @@
                 }
             }, intervalTime);
 
-
+            // Detiene la música en el segundo 10
             setTimeout(function() {
                 audio.pause();
-            }, 5000);
+            }, 5000); // 5000 ms = 5 segundos después de que empieza a reproducir
         }
     </script>
 </body>
