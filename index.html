@@ -44,11 +44,50 @@
             font-size: 18px;
             font-weight: bold;
             color: #333;
-            display: none; /* Oculto por defecto */
+            display: none;
+        }
+        #startOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+        #startOverlay .overlay-content {
+            text-align: center;
+            color: white;
+        }
+        #startOverlay .overlay-content h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        #startOverlay .overlay-content p {
+            font-size: 16px;
+            opacity: 0.7;
+        }
+        #startOverlay .play-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            display: block;
         }
     </style>
 </head>
 <body>
+    <!-- Overlay para iniciar la musica -->
+    <div id="startOverlay" onclick="dismissOverlay()">
+        <div class="overlay-content">
+            <span class="play-icon">&#9654;</span>
+            <h2>magomeme</h2>
+            <p>Haz clic para comenzar</p>
+        </div>
+    </div>
+
     <div class="container">
         <h1>Piensa en un número</h1>
         <input type="number" id="inputNumber" placeholder="Número" />
@@ -67,7 +106,19 @@
         <source src ="musica/magomeme.mp3" type="audio/mpeg">
     </audio>
 
+    <!-- Audio de fondo que suena al iniciar -->
+    <audio id="bgMusic" loop>
+        <source src="musica/magomeme.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
+        function dismissOverlay() {
+            document.getElementById('startOverlay').style.display = 'none';
+            var bgMusic = document.getElementById('bgMusic');
+            bgMusic.volume = 0.3;
+            bgMusic.play();
+        }
+
         function startLoading() {
             var number = document.getElementById('inputNumber').value;
             if (number === "") {
